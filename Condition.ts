@@ -203,7 +203,7 @@ export default class Condition {
                 return this.matchAddress(message_data.list);
             }
             case ConditionType.SENDER: {
-                return this.matchAddress(message_data.from);
+                return this.matchAddress(...message_data.sender);
             }
             case ConditionType.RECEIVER: {
                 return this.matchAddress(...message_data.receivers);
