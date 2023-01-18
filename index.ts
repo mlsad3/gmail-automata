@@ -77,12 +77,6 @@ if (typeof Object.assign !== 'function') {
 
 // Top level functions
 
-function ensurePermissionsEstablished() {
-    // Some Gmail configurations do not initiate asking for Gmail
-    // permissions when Gmail APIs are used behind withTimer(). See Issue#63.
-    Session.getActiveUser();
-}
-
 // Triggered when Spreadsheet is opened
 // noinspection JSUnusedGlobalSymbols
 function onOpen(e: { authMode: GoogleAppsScript.Script.AuthMode }) {
@@ -106,7 +100,10 @@ function onOpen(e: { authMode: GoogleAppsScript.Script.AuthMode }) {
 
 // Triggered when time-driven trigger or click via Spreadsheet menu
 function processEmails() {
-    ensurePermissionsEstablished();
+    // Some Gmail configurations do not initiate asking for Gmail
+    // permissions when Gmail APIs are called from other functions.
+    // This Session.getActiveUser() call ensures permissions are enabled.
+    Session.getActiveUser();
     Utils.withFailureEmailed("processEmails", () => Processor.processAllUnprocessedThreads());
 }
 
@@ -117,7 +114,10 @@ function sanityChecking() {
 }
 
 function setupTriggers() {
-    ensurePermissionsEstablished();
+    // Some Gmail configurations do not initiate asking for Gmail
+    // permissions when Gmail APIs are called from other functions.
+    // This Session.getActiveUser() call ensures permissions are enabled.
+    Session.getActiveUser();
     cancelTriggers();
 
     Utils.withFailureEmailed("setupTriggers", () => {
@@ -152,6 +152,10 @@ function cancelTriggers() {
 }
 
 function testAll() {
+    // Some Gmail configurations do not initiate asking for Gmail
+    // permissions when Gmail APIs are called from other functions.
+    // This Session.getActiveUser() call ensures permissions are enabled.
+    Session.getActiveUser();
     const jestExpect = new JestExpect();
     const jestIt = new JestIt();
 
