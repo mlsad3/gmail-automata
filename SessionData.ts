@@ -41,7 +41,7 @@ export class SessionData {
         this.user_email = Utils.withTimer("getEmail", () => Session.getActiveUser().getEmail());
         this.config = Utils.withTimer("getConfigs", () => Config.getConfig());
         this.labels = Utils.withTimer("getLabels", () => SessionData.getLabelMap());
-        this.rules = Utils.withTimer("getRules", () => Rule.getRules());
+        this.rules = Utils.withTimer("getRules", () => Rule.getRules(this.config));
         this.requested_headers = Utils.withTimer("getHeaders", () => Rule.getConditionHeaders(this.rules));
 
         this.processing_start_time = new Date();
